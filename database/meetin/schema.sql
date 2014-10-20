@@ -103,7 +103,7 @@ CREATE TABLE events_discussion_comment(
 	id INTEGER AUTO_INCREMENT,
 	discussion_id INTEGER REFERENCES events_discussion(id),
 	user_id INTEGER REFERENCES users(id),
-	content BLOB,
+	comment BLOB,
 	
 	PRIMARY KEY(id)
 );
