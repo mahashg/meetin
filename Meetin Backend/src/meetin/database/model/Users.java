@@ -1,5 +1,11 @@
 package meetin.database.model;
 
+import java.sql.ResultSet;
+
+import lombok.Data;
+import meetin.utility.JDBCUtility;
+
+@Data
 public class Users {
 	private Integer id;
 	private String name;
@@ -11,42 +17,15 @@ public class Users {
 		
 	}
 	
-	public Integer getId() {
-		return id;
+	public Users(ResultSet rs){
+		this.id = JDBCUtility.readInt(rs, "id");
+		this.name = JDBCUtility.readString(rs, "name");
+		this.pswd = JDBCUtility.readString(rs, "pswd");
+		this.organization = JDBCUtility.readString(rs, "organization");
+		this.skills = JDBCUtility.readString(rs, "skills");
 	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPswd() {
-		return pswd;
-	}
-	public void setPswd(String pswd) {
-		this.pswd = pswd;
-	}
-	public String getOrganization() {
-		return organization;
-	}
-	public void setOrganization(String organization) {
-		this.organization = organization;
-	}
-	public String getSkills() {
-		return skills;
-	}
-	public void setSkills(String skills) {
-		this.skills = skills;
+	
+	public static Users byId(Integer Id){
+		return null;
 	}
 }
-
-/*
-id INTEGER AUTO_INCREMENT,
-name VARCHAR(128),
-pswd VARCHAR(128),
-organization VARCHAR(128),
-skills VARCHAR(256),
-*/

@@ -1,7 +1,12 @@
 package meetin.database.model;
 
-import org.joda.time.DateTime;
+import java.sql.ResultSet;
 
+import lombok.Data;
+import meetin.utility.JDBCUtility;
+
+import org.joda.time.DateTime;
+@Data
 public class Events {
 	private Integer id;
 	private String name;
@@ -12,73 +17,22 @@ public class Events {
 	private DateTime start_ts;
 	private DateTime end_ts;
 	
-	private Events(){
-		
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Users getCreated_by() {
-		return created_by;
-	}
-
-	public void setCreated_by(Users created_by) {
-		this.created_by = created_by;
-	}
-
-	public DateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(DateTime created_at) {
-		this.created_at = created_at;
-	}
-
-	public DateTime getStart_ts() {
-		return start_ts;
-	}
-
-	public void setStart_ts(DateTime start_ts) {
-		this.start_ts = start_ts;
-	}
-
-	public DateTime getEnd_ts() {
-		return end_ts;
-	}
-
-	public void setEnd_ts(DateTime end_ts) {
-		this.end_ts = end_ts;
+	public Events(){
 	}
 	
+	public Events(ResultSet rs){
+		this.id = JDBCUtility.readInt(rs, "id");
+		this.name = JDBCUtility.readString(rs, "name");
+		this.description = JDBCUtility.readString(rs, "description");
+		this.location = JDBCUtility.readString(rs, "location");
+		this.created_by = Users.byId(JDBCUtility.readInt(rs, "created_by")); // TODO
+		this.created_at = JDBCUtility.readTimeStamp(rs, "created_at");
+		this.start_ts = JDBCUtility.readTimeStamp(rs, "start_ts");
+		this.end_ts = JDBCUtility.readTimeStamp(rs, "end_ts");
+		Object obj = new Object();
+	}
 	
+	public static Events byId(Integer id){
+		return null;
+	}
 }

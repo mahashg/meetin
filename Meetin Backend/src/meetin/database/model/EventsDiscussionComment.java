@@ -1,5 +1,11 @@
 package meetin.database.model;
 
+import java.sql.ResultSet;
+
+import lombok.Data;
+import meetin.utility.JDBCUtility;
+
+@Data
 public class EventsDiscussionComment {
 	private Integer id;
 	private EventsDiscussion discussion;
@@ -9,47 +15,11 @@ public class EventsDiscussionComment {
 	public EventsDiscussionComment() {
 	
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public EventsDiscussion getDiscussion() {
-		return discussion;
-	}
-
-	public void setDiscussion(EventsDiscussion discussion) {
-		this.discussion = discussion;
-	}
-
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
+	
+	public EventsDiscussionComment(ResultSet rs){
+		this.id = JDBCUtility.readInt(rs, "id");
+		this.discussion = EventsDiscussion.byId(JDBCUtility.readInt(rs, "discussion_id"));
+		this.user = Users.byId(JDBCUtility.readInt(rs, "user_id"));
+		this.comment = JDBCUtility.readString(rs, "comment");
 	}
 }
-
-/*
-CREATE TABLE events_discussion_comment(
-	id INTEGER AUTO_INCREMENT,
-	discussion_id INTEGER REFERENCES events_discussion(id),
-	user_id INTEGER REFERENCES users(id),
-	content BLOB,
-	
-	PRIMARY KEY(id)
-);
-*/

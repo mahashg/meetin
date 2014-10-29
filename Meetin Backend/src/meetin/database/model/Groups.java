@@ -1,5 +1,11 @@
 package meetin.database.model;
 
+import java.sql.ResultSet;
+
+import lombok.Data;
+import meetin.utility.JDBCUtility;
+
+@Data
 public class Groups {
 	private Integer id;
 	private String name;
@@ -9,47 +15,16 @@ public class Groups {
 	public Groups() {
 	
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Users getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Users admin) {
-		this.admin = admin;
-	}	
-}
-
-/*
-CREATE TABLE groups(
-	id INTEGER AUTO_INCREMENT,
-	name VARCHAR(128),
-	description BLOB,
-	admin INTEGER REFERENCES users(id),
 	
-	PRIMARY KEY(id)
-);
-*/
+	public Groups(ResultSet rs){
+		this.id = JDBCUtility.readInt(rs, "id");
+		this.name = JDBCUtility.readString(rs, "name");
+		this.description = JDBCUtility.readString(rs, "description");
+		this.admin = Users.byId(JDBCUtility.readInt(rs, "admin"));
+	}
+	
+	public static Groups byId(Integer id){
+		return null;
+	}
+
+}
